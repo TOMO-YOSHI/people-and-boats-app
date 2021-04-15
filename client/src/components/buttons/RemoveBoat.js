@@ -1,37 +1,45 @@
 import React from 'react'
 import { useMutation } from '@apollo/client'
 import { filter } from 'lodash'
-import { GET_PEOPLE, REMOVE_PERSON } from '../../queries'
+import { GET_BOATS, REMOVE_BOAT } from '../../queries'
 import { DeleteOutlined } from '@ant-design/icons'
 
-const RemovePerson = ({ id, firstName, lastName }) => {
-  const [removePerson] = useMutation(REMOVE_PERSON, {
-    update(proxy, { data: { removePerson } }) {
-      const { people } = proxy.readQuery({ query: GET_PEOPLE })
+const RemoveBoat = ({ id }) => {
+  const [removeBoat] = useMutation(REMOVE_BOAT, {
+    update(proxy, { data: { removeBoat } }) {
+      const { boats } = proxy.readQuery({ 
+        query: GET_BOATS,
+        variables: {
+          personId: removeBoat.personId
+        },
+       })
       proxy.writeQuery({
-        query: GET_PEOPLE,
+        query: GET_BOATS,
         data: {
-          people: filter(people, c => {
-            return c.id !== removePerson.id
+          boats: filter(boats, c => {
+            return c.id !== removeBoat.id
           })
         }
       })
     }
   })
   const handleButtonClick = () => {
-    let result = window.confirm('Are you sure you want to delete this person?')
+    let result = window.confirm('Are you sure you want to delete this boat?')
     if (result) {
-      removePerson({
+      removeBoat({
         variables: {
           id
         },
         optimisticResponse: {
           __typename: 'Mutation',
-          removePerson: {
-            __typename: 'Person',
+          removeBoat: {
+            __typename: 'Boat',
             id,
-            firstName,
-            lastName
+            year,
+            make,
+            model,
+            price,
+            personId
           }
         }
       })
@@ -46,4 +54,4 @@ const RemovePerson = ({ id, firstName, lastName }) => {
   )
 }
 
-export default RemovePerson
+export default RemoveBoat
