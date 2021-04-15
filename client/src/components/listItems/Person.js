@@ -5,6 +5,8 @@ import { EditOutlined } from '@ant-design/icons'
 import UpdatePerson from '../forms/UpdatePerson'
 import RemovePerson from '../buttons/RemovePerson'
 
+import Boats from '../lists/Boats';
+
 const getStyles = () => ({
   card: {
     width: '500px'
@@ -56,6 +58,9 @@ const Person = props => {
           style={styles.card}
         >
           {fullName()}
+          <Boats
+            personId={id}
+          />
         </Card>
       )}
     </List.Item>

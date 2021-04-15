@@ -39,3 +39,31 @@ export const REMOVE_PERSON = gql`
     }
   }
 `
+// BOAT queries *********************
+
+export const GET_BOATS = gql`
+  query BoatsQuery($personId: String!){
+    boats(personId: $personId) {
+      id
+      year
+      make
+      model
+      price
+      personId
+    }
+  }
+`;
+
+export const ADD_BOAT = gql`
+  mutation AddBoat($id: String!, $year: String!, $make:String!, $model: String!, $price: String!, $personId:String!)
+  {
+    addBoat(id: $id, year: $year, make: $make, model: $model, price: $price, personId:$personId) {
+      id
+      year
+      make
+      model
+      price
+      personId
+    }
+  }
+`
